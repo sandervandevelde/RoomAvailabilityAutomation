@@ -1,0 +1,139 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Compose": {
+                "inputs": "@body('Find_meeting_times_(V2)')",
+                "runAfter": {
+                    "Find_meeting_times_(V2)": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Compose"
+            },
+            "Find_meeting_times_(V2)": {
+                "inputs": {
+                    "body": {
+                        "ActivityDomain": "Unrestricted",
+                        "End": "@{variables('datetimeutcend')}",
+                        "IsOrganizerOptional": true,
+                        "MinimumAttendeePercentage": "0",
+                        "RequiredAttendees": "[roomname@domain.nl]",
+                        "Start": "@variables('datetimeutcstart')"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['office365']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/codeless/beta/me/findMeetingTimes"
+                },
+                "runAfter": {
+                    "Initialize_variable_-_now_utc_end_window": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            },
+            "HTTP": {
+                "inputs": {
+                    "body": "@body('Find_meeting_times_(V2)')",
+                    "method": "POST",
+                    "queries": {
+                        "code": "[aurefunctionsecret]",
+                        "currentDate": "@variables('datetimeutc')",
+                        "endDate": "@variables('datetimeutcend')",
+                        "startDate": "@variables('datetimeutcstart')"
+                    },
+                    "uri": "https://raa.azurewebsites.net/api/raa"
+                },
+                "runAfter": {
+                    "Compose": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Http"
+            },
+            "Initialize_variable": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "datetimeutc",
+                            "type": "string",
+                            "value": "@{utcNow()}"
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            },
+            "Initialize_variable_-_now_utc_end_window": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "datetimeutcend",
+                            "type": "string",
+                            "value": "@{addMinutes(parseDateTime(variables('datetimeutc')),90)}"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_-_now_utc_start_window": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "Initialize_variable_-_now_utc_start_window": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "datetimeutcstart",
+                            "type": "string",
+                            "value": "@{addMinutes( utcNow(), -60)}"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "Recurrence": {
+                "evaluatedRecurrence": {
+                    "frequency": "Minute",
+                    "interval": 5
+                },
+                "recurrence": {
+                    "frequency": "Minute",
+                    "interval": 5
+                },
+                "type": "Recurrence"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "office365": {
+                    "connectionId": "/subscriptions/[yourguid]/resourceGroups/outlook-automation-rg/providers/Microsoft.Web/connections/office365",
+                    "connectionName": "office365",
+                    "id": "/subscriptions/[yourguid]/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+                }
+            }
+        }
+    }
+}
