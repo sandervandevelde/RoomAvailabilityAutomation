@@ -1,0 +1,87 @@
+﻿
+
+ "currentDate": "2023-10-16T07:55:06.4204260Z",
+  "endDate": "2023-10-16T09:25:06.4204260Z",
+  "startDate": "2023-10-16T06:55:06.5108222Z"
+
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#microsoft.graph.meetingTimeSuggestionsResult",
+    "emptySuggestionsReason": "",
+    "meetingTimeSuggestions": [
+        {
+            "confidence": 100,
+            "organizerAvailability": "busy",
+            "attendeeAvailability": [
+                {
+                    "availability": "free",
+                    "attendee": {
+                        "emailAddress": {
+                            "address": "rsc-room-ehv-fourth-duitsland@alten.nl"
+                        }
+                    }
+                }
+            ],
+            "locations": [],
+            "meetingTimeSlot": {
+                "start": {
+                    "dateTime": "2023-10-16T07:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-10-16T07:30:00.0000000",
+                    "timeZone": "UTC"
+                }
+            }
+        },
+        {
+            "confidence": 100,
+            "organizerAvailability": "free",
+            "attendeeAvailability": [
+                {
+                    "availability": "free",
+                    "attendee": {
+                        "emailAddress": {
+                            "address": "rsc-room-ehv-fourth-duitsland@alten.nl"
+                        }
+                    }
+                }
+            ],
+            "locations": [],
+            "meetingTimeSlot": {
+                "start": {
+                    "dateTime": "2023-10-16T08:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-10-16T08:30:00.0000000",
+                    "timeZone": "UTC"
+                }
+            }
+        },
+        {
+            "confidence": 100,
+            "organizerAvailability": "free",
+            "attendeeAvailability": [
+                {
+                    "availability": "free",
+                    "attendee": {
+                        "emailAddress": {
+                            "address": "rsc-room-ehv-fourth-duitsland@alten.nl"
+                        }
+                    }
+                }
+            ],
+            "locations": [],
+            "meetingTimeSlot": {
+                "start": {
+                    "dateTime": "2023-10-16T08:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-10-16T09:00:00.0000000",
+                    "timeZone": "UTC"
+                }
+            }
+        }
+    ]
+}

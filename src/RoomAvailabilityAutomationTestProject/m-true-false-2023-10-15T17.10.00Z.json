@@ -1,0 +1,48 @@
+﻿{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#microsoft.graph.meetingTimeSuggestionsResult",
+    "emptySuggestionsReason": "",
+    "meetingTimeSuggestions": [
+        {
+            "confidence": 100.0,
+            "organizerAvailability": "free",
+            "attendeeAvailability": [
+                {
+                    "availability": "free",
+                    "attendee": { "emailAddress": { "address": "rsc-room-ehv-fourth-duitsland@alten.nl" } }
+                }
+            ],
+            "locations": [],
+            "meetingTimeSlot": {
+                "start": {
+                    "dateTime": "2023-10-15T17:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-10-15T17:30:00.0000000",
+                    "timeZone": "UTC"
+                }
+            }
+        },
+        {
+            "confidence": 100.0,
+            "organizerAvailability": "free",
+            "attendeeAvailability": [
+                {
+                    "availability": "free",
+                    "attendee": { "emailAddress": { "address": "rsc-room-ehv-fourth-duitsland@alten.nl" } }
+                }
+            ],
+            "locations": [],
+            "meetingTimeSlot": {
+                "start": {
+                    "dateTime": "2023-10-15T18:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-10-15T18:30:00.0000000",
+                    "timeZone": "UTC"
+                }
+            }
+        }
+    ]
+}
