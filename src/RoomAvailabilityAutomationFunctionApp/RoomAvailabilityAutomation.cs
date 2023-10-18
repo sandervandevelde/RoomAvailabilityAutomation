@@ -25,12 +25,14 @@ namespace RoomAvailabilityAutomationFunctionApp
 			string currentDate = req.Query["currentDate"];
 			string startDate = req.Query["startDate"];
 			string endDate = req.Query["endDate"];
+			string roomEmailAddress = req.Query["roomEmailAddress"];
 
 			if (string.IsNullOrEmpty(startDate)
 					|| string.IsNullOrEmpty(endDate)
-					|| string.IsNullOrEmpty(currentDate))
+					|| string.IsNullOrEmpty(currentDate)
+					|| string.IsNullOrEmpty(roomEmailAddress))
 			{
-				return new BadRequestObjectResult($"Exception: no start date or end date in query");
+				return new BadRequestObjectResult($"Exception: no start date or current date or end date or room in query");
 			}
 
 			log.LogInformation($"RoomAvailabilityAutomation function processed a request: {startDate} | {currentDate} | {endDate}");
@@ -45,7 +47,7 @@ namespace RoomAvailabilityAutomationFunctionApp
 
 				busyLightLoraProvider.ChangeLight(freeSlots.Current, freeSlots.Next, freeSlots.NumberOfMinutesTillFullHour, log);	
 
-				string responseMessage = $"Triggered function executed successfully: Current slot is free:'{freeSlots.Current}'; Next slot is free:'{freeSlots.Next}'.";
+				string responseMessage = $"Triggered function executed successfully: Current slot is free:'{freeSlots.Current}'; Next slot is free:'{freeSlots.Next}' for room '{roomEmailAddress}'.";
 
 				log.LogInformation($"request: {responseMessage}");
 
