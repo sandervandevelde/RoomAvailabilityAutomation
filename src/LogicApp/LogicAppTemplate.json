@@ -2,15 +2,6 @@
     "definition": {
         "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
         "actions": {
-            "Compose": {
-                "inputs": "@body('Find_meeting_times_(V2)')",
-                "runAfter": {
-                    "Find_meeting_times_(V2)": [
-                        "Succeeded"
-                    ]
-                },
-                "type": "Compose"
-            },
             "Find_meeting_times_(V2)": {
                 "inputs": {
                     "body": {
@@ -18,7 +9,7 @@
                         "End": "@{variables('datetimeutcend')}",
                         "IsOrganizerOptional": true,
                         "MinimumAttendeePercentage": "0",
-                        "RequiredAttendees": "[roomname@domain.nl]",
+                        "RequiredAttendees": "@variables('roomemailaddress')",
                         "Start": "@variables('datetimeutcstart')"
                     },
                     "host": {
@@ -41,15 +32,16 @@
                     "body": "@body('Find_meeting_times_(V2)')",
                     "method": "POST",
                     "queries": {
-                        "code": "[aurefunctionsecret]",
+                        "code": "[Fuction access code]",
                         "currentDate": "@variables('datetimeutc')",
                         "endDate": "@variables('datetimeutcend')",
+                        "roomEmailAddress": "@variables('roomemailaddress')",
                         "startDate": "@variables('datetimeutcstart')"
                     },
-                    "uri": "https://raa.azurewebsites.net/api/raa"
+                    "uri": "https://roomavailabilityautomation-afa.azurewebsites.net/api/RoomAvailabilityAutomation"
                 },
                 "runAfter": {
-                    "Compose": [
+                    "Find_meeting_times_(V2)": [
                         "Succeeded"
                     ]
                 },
@@ -65,7 +57,11 @@
                         }
                     ]
                 },
-                "runAfter": {},
+                "runAfter": {
+                    "Initialize_variable_-_room_email_address": [
+                        "Succeeded"
+                    ]
+                },
                 "type": "InitializeVariable"
             },
             "Initialize_variable_-_now_utc_end_window": {
@@ -91,7 +87,7 @@
                         {
                             "name": "datetimeutcstart",
                             "type": "string",
-                            "value": "@{addMinutes( utcNow(), -60)}"
+                            "value": "@{addMinutes(parseDateTime(variables('datetimeutc')), -60)}"
                         }
                     ]
                 },
@@ -100,6 +96,19 @@
                         "Succeeded"
                     ]
                 },
+                "type": "InitializeVariable"
+            },
+            "Initialize_variable_-_room_email_address": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "roomemailaddress",
+                            "type": "string",
+                            "value": "XYZ@ABC.nl"
+                        }
+                    ]
+                },
+                "runAfter": {},
                 "type": "InitializeVariable"
             }
         },
@@ -129,9 +138,9 @@
         "$connections": {
             "value": {
                 "office365": {
-                    "connectionId": "/subscriptions/[yourguid]/resourceGroups/outlook-automation-rg/providers/Microsoft.Web/connections/office365",
+                    "connectionId": "/subscriptions/[XYZ]/resourceGroups/outlook-automation-rg/providers/Microsoft.Web/connections/office365",
                     "connectionName": "office365",
-                    "id": "/subscriptions/[yourguid]/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
+                    "id": "/subscriptions/[xyz]/providers/Microsoft.Web/locations/westeurope/managedApis/office365"
                 }
             }
         }
